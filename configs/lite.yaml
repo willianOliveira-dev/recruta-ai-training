@@ -1,0 +1,49 @@
+model:
+  name_or_path: "unsloth/DeepSeek-R1-Distill-Qwen-14B"
+  load_in_4bit: true
+
+training:
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 8
+  max_seq_length: 1024
+  num_train_epochs: 3
+
+peft:
+  r: 8
+  lora_alpha: 16
+
+data:
+  sources:
+    - name: "ner-bert"
+      source_type: "huggingface"
+      uri: "yashpwr/resume-ner-bert-v2"
+    - name: "ats-score"
+      source_type: "huggingface"
+      uri: "0xnbk/resume-ats-score-v1-en"
+    - name: "score-details"
+      source_type: "huggingface"
+      uri: "netsol/resume-score-details"
+    - name: "resume-dataset-1"
+      source_type: "kaggle"
+      uri: "saugataroyarghya/resume-dataset"
+    - name: "resume-dataset-2"
+      source_type: "kaggle"
+      uri: "snehaanbhawal/resume-dataset"
+    - name: "ner-training"
+      source_type: "kaggle"
+      uri: "yashpwrr/resume-ner-training-dataset"
+    - name: "resume-screening"
+      source_type: "kaggle"
+      uri: "mdtalhask/ai-powered-resume-screening-dataset-2025"
+    - name: "resume-ranking"
+      source_type: "kaggle"
+      uri: "thejohnwick001/resume-data-for-ranking"
+
+wandb:
+  enabled: true
+  name: "recruta-lite-run-1"
+
+publish:
+  enabled: true
+  repo_id: "willi/recruta-1.0-ats-lite-14b"
+  merge_before_push: true

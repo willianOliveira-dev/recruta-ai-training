@@ -1,0 +1,45 @@
+project_name: "recruta-ai"
+seed: 42
+output_dir: "./outputs"
+
+training:
+  max_seq_length: 2048
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 2.0e-4
+  weight_decay: 0.01
+  num_train_epochs: 1
+  optim: "adamw_8bit"
+  lr_scheduler_type: "cosine"
+  warmup_steps: 10
+  warmup_ratio: 0.03
+  logging_steps: 5
+  save_steps: 50
+  fp16: false
+  bf16: true
+  packing: false
+
+peft:
+  r: 16
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  lora_alpha: 32
+  lora_dropout: 0
+  bias: "none"
+  use_gradient_checkpointing: "unsloth"
+  use_rslora: false
+
+wandb:
+  enabled: false
+  project: "recruta-ai-training"
+
+publish:
+  enabled: false
+  repo_id: "username/recruta-1.0-ats-lite-14b"
+  merge_before_push: true
