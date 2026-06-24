@@ -1,65 +1,97 @@
-# Recruta AI - LLM Fine-Tuning Repository
+# Recruta AI Training
 
-Repositório corporativo e estruturado com base nos princípios **SOLID** para treinamento, fine-tuning e avaliação de modelos baseados em LLM focados em análise de currículos (Resumes).
+A scalable and corporate-grade Fine-Tuning pipeline for Large Language Models (LLMs) specifically targeted at the Human Resources (ATS - Applicant Tracking Systems) domain.
 
-## 📂 Arquitetura do Projeto
+> [!NOTE]
+> The current base model adopted for the "Lite" version is **`unsloth/DeepSeek-R1-Distill-Qwen-14B`**, focused on entity extraction (NER), scoring, and resume ranking.
 
-O repositório foi projetado visando escalabilidade para novas versões (Pro, Max) a partir da nossa base Lite, permitindo configurações sobrepostas e fácil adição de novos datasets.
+## Architecture
+
+This repository is built with strict adherence to SOLID principles, Clean Architecture, and type safety, ensuring modularity and maintainability.
 
 ```text
 recruta-ai-training/
-├── AGENTS.md                  # Diretrizes para Agentes IA e restrições arquiteturais
-├── README.md                   # Documentação base do projeto e tree view
-├── pyproject.toml              # Dependências gerenciadas via `uv`
-│
-├── configs/                    # Camada de configuração (YAML)
-│   ├── base.yaml               # Parâmetros gerais globais
-│   ├── lite.yaml               # Recruta 1.0 Lite (unsloth/DeepSeek-R1-Distill-Qwen-14B)
-│   └── (futuros).yaml          # Pro, Max, etc.
-│
-├── data/                       # Armazenamento de dados locais (se necessário)
-│   ├── raw/                    # Datasets originais do Kaggle/HF (Ignorados no git)
-│   └── processed/              # Datasets processados no formato de instrução SFT
-│
-├── src/                        # Código base focado em SOLID
-│   ├── __init__.py
-│   ├── config/                 # Pydantic Settings para validação das configs
-│   ├── data/                   # Ingestão e preparação de dados (Kaggle e Hugging Face)
-│   ├── models/                 # Gerenciamento e carregamento de modelos (Unsloth)
-│   └── training/               # Lógica de fine-tuning (SFTTrainer e afins)
-│
-└── scripts/                    # CLI Scripts / Entrypoints
-    ├── prepare_data.py         # Ingestão e formatação dos datasets
-    └── train.py                # Script principal de treinamento (recebe o config como arg)
+├── .agents/       # AI Training Skills and Guidelines (LoRA, PEFT, SOLID)
+├── configs/       # Pydantic-validated YAML configurations
+├── notebooks/     # Colab-ready Jupyter Notebooks for cloud GPU training
+├── scripts/       # Thin CLI entrypoints
+└── src/
+    ├── config/    # Configuration parsing and validation
+    ├── data/      # Multi-source dataset ingestion (Strategy Pattern)
+    ├── models/    # Unsloth Model Loader and PEFT adapters
+    ├── shared/    # Core Protocols and Typed Domain Errors
+    └── training/  # SFTTrainer Orchestration and HuggingFace Publisher
 ```
 
-## 🛠️ Tecnologias Principais
-- **[Unsloth](https://github.com/unslothai/unsloth):** Para fine-tuning otimizado, veloz e com menor uso de VRAM de modelos grandes.
-- **[Hugging Face `datasets` e `transformers`](https://huggingface.co/):** Pipeline de dados e inferência.
-- **[Pydantic](https://docs.pydantic.dev/):** Validação de configurações (Config driven development).
-- **[uv](https://github.com/astral-sh/uv):** Gerenciador de pacotes ultra-rápido para Python.
+## Features
 
-## 🚀 Como Iniciar
+- **Multi-Source Ingestion**: Seamless integration with Kaggle and Hugging Face APIs via the Strategy pattern.
+- **Ultra-Fast Training**: Leveraging Unsloth for optimized VRAM usage and speed.
+- **Automated Publishing**: Built-in publisher to merge 16-bit LoRA adapters and push directly to Hugging Face Hub.
+- **Advanced PEFT**: Configured with `alpha >= 2 * r`, Cosine LR Scheduler, and customizable Warmup Ratios based on expert fine-tuning guidelines.
+- **Type Safety**: Built with strict static typing, Pydantic validation, and structural pattern matching (Protocols).
 
-1. **Instale o `uv`** (caso não tenha):
+## Prerequisites
+
+- Python `>=3.10`
+- [uv](https://github.com/astral-sh/uv) package manager
+- Kaggle Account (for dataset downloading)
+- Hugging Face Token with *Write* permission
+
+## Getting Started
+
+### Google Colab (Recommended)
+
+The easiest way to run the end-to-end pipeline using hosted GPUs:
+
+1. Open [Google Colab](https://colab.research.google.com/).
+2. Upload the `notebooks/recruta_colab_training.ipynb` file.
+3. In the Colab Secrets tab, add your credentials:
+   - `KAGGLE_USERNAME`
+   - `KAGGLE_KEY`
+   - `HF_TOKEN`
+4. Run all cells to automatically clone, ingest data, train the model, and publish it to Hugging Face.
+
+### Local Development
+
+> [!IMPORTANT]
+> We strongly recommend using `uv` instead of `pip` to prevent Cuda/PyTorch dependency conflicts when using Unsloth.
+
+1. **Clone the repository and install dependencies:**
    ```bash
-   pip install uv
+   git clone https://github.com/willianOliveira-dev/recruta-ai-training.git
+   cd recruta-ai-training
+   uv sync
    ```
 
-2. **Crie o ambiente virtual e instale as dependências**:
+2. **Set Environment Variables:**
+   Create a `.env` file or export them in your terminal:
    ```bash
-   uv venv
-   # No Windows: .\.venv\Scripts\activate
-   # No Linux/Mac: source .venv/bin/activate
-   uv pip install -e .
+   export KAGGLE_USERNAME="your_kaggle_username"
+   export KAGGLE_KEY="your_kaggle_key"
+   export HF_TOKEN="your_hf_write_token"
    ```
 
-3. **Prepara os Dados**:
+3. **Run the Pipeline:**
    ```bash
-   python scripts/prepare_data.py --config configs/lite.yaml
+   # Optional: Only download and prepare data
+   uv run scripts/prepare_data.py --config configs/lite.yaml
+
+   # Train the model
+   uv run scripts/train.py --config configs/lite.yaml
+
+   # Merge 16-bit adapters and publish to Hugging Face
+   uv run scripts/publish.py --config configs/lite.yaml
    ```
 
-4. **Inicie o Treinamento**:
-   ```bash
-   python scripts/train.py --config configs/lite.yaml
-   ```
+## Configuration
+
+The entire system is configuration-driven via the `configs/` directory. You can add or modify data sources directly in the YAML file without touching the Python code.
+
+```yaml
+data:
+  sources:
+    - name: "custom-dataset"
+      source_type: "kaggle"
+      uri: "kaggle_user/dataset_name"
+```
