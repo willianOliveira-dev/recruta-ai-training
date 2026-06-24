@@ -1,97 +1,97 @@
 # Recruta AI Training
 
-A scalable and corporate-grade Fine-Tuning pipeline for Large Language Models (LLMs) specifically targeted at the Human Resources (ATS - Applicant Tracking Systems) domain.
+Uma pipeline corporativa e escalável para *Fine-Tuning* de Modelos de Linguagem Grande (LLMs) voltada especificamente para o domínio de Recursos Humanos (ATS - *Applicant Tracking Systems*).
 
 > [!NOTE]
-> The current base model adopted for the "Lite" version is **`unsloth/DeepSeek-R1-Distill-Qwen-14B`**, focused on entity extraction (NER), scoring, and resume ranking.
+> O modelo base atual adotado para a versão "Lite" é o **`unsloth/DeepSeek-R1-Distill-Qwen-14B`**, focado em extração de entidades (NER), *scoring* e ranqueamento de currículos.
 
-## Architecture
+## Arquitetura
 
-This repository is built with strict adherence to SOLID principles, Clean Architecture, and type safety, ensuring modularity and maintainability.
+Este repositório foi construído com adesão estrita aos princípios SOLID, Clean Architecture e segurança de tipos (Type Safety), garantindo modularidade e manutenibilidade.
 
 ```text
 recruta-ai-training/
-├── .agents/       # AI Training Skills and Guidelines (LoRA, PEFT, SOLID)
-├── configs/       # Pydantic-validated YAML configurations
-├── notebooks/     # Colab-ready Jupyter Notebooks for cloud GPU training
-├── scripts/       # Thin CLI entrypoints
+├── .agents/       # Skills e Diretrizes de Treinamento IA (LoRA, PEFT, SOLID)
+├── configs/       # Configurações YAML validadas via Pydantic
+├── notebooks/     # Jupyter Notebooks prontos para treinamento com GPU em nuvem (Colab)
+├── scripts/       # Pontos de entrada CLI simplificados (Thin entrypoints)
 └── src/
-    ├── config/    # Configuration parsing and validation
-    ├── data/      # Multi-source dataset ingestion (Strategy Pattern)
-    ├── models/    # Unsloth Model Loader and PEFT adapters
-    ├── shared/    # Core Protocols and Typed Domain Errors
-    └── training/  # SFTTrainer Orchestration and HuggingFace Publisher
+    ├── config/    # Leitura e validação das configurações
+    ├── data/      # Ingestão de datasets de múltiplas fontes (Padrão Strategy)
+    ├── models/    # Carregador de modelos Unsloth e adaptadores PEFT
+    ├── shared/    # Protocolos centrais e Erros de Domínio Tipados
+    └── training/  # Orquestração do SFTTrainer e Publicador no HuggingFace
 ```
 
-## Features
+## Funcionalidades
 
-- **Multi-Source Ingestion**: Seamless integration with Kaggle and Hugging Face APIs via the Strategy pattern.
-- **Ultra-Fast Training**: Leveraging Unsloth for optimized VRAM usage and speed.
-- **Automated Publishing**: Built-in publisher to merge 16-bit LoRA adapters and push directly to Hugging Face Hub.
-- **Advanced PEFT**: Configured with `alpha >= 2 * r`, Cosine LR Scheduler, and customizable Warmup Ratios based on expert fine-tuning guidelines.
-- **Type Safety**: Built with strict static typing, Pydantic validation, and structural pattern matching (Protocols).
+- **Ingestão Multi-Fonte**: Integração fluida com APIs do Kaggle e Hugging Face via padrão Strategy.
+- **Treinamento Ultra-Rápido**: Utiliza o Unsloth para otimização de velocidade e uso de memória VRAM.
+- **Publicação Automatizada**: Publicador integrado para fundir (merge) os adaptadores LoRA em 16-bits e enviar (push) diretamente para o Hugging Face Hub.
+- **PEFT Avançado**: Configurado com `alpha >= 2 * r`, *Cosine LR Scheduler*, e *Warmup Ratios* customizáveis, baseados nas melhores práticas e guias de especialistas em fine-tuning.
+- **Segurança de Tipos (Type Safety)**: Construído com tipagem estática rigorosa, validação Pydantic e correspondência de padrões estruturais (Protocols).
 
-## Prerequisites
+## Pré-requisitos
 
 - Python `>=3.10`
-- [uv](https://github.com/astral-sh/uv) package manager
-- Kaggle Account (for dataset downloading)
-- Hugging Face Token with *Write* permission
+- Gerenciador de pacotes [uv](https://github.com/astral-sh/uv)
+- Conta no Kaggle (para o download dos datasets)
+- Token do Hugging Face com permissão de Escrita (*Write*)
 
-## Getting Started
+## Como Iniciar
 
-### Google Colab (Recommended)
+### Google Colab (Recomendado)
 
-The easiest way to run the end-to-end pipeline using hosted GPUs:
+A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuvem:
 
-1. Open [Google Colab](https://colab.research.google.com/).
-2. Upload the `notebooks/recruta_colab_training.ipynb` file.
-3. In the Colab Secrets tab, add your credentials:
+1. Abra o [Google Colab](https://colab.research.google.com/).
+2. Faça o upload do arquivo `notebooks/recruta_colab_training.ipynb`.
+3. Na aba Secrets do Colab, adicione suas credenciais:
    - `KAGGLE_USERNAME`
    - `KAGGLE_KEY`
    - `HF_TOKEN`
-4. Run all cells to automatically clone, ingest data, train the model, and publish it to Hugging Face.
+4. Execute todas as células para clonar o repositório, ingerir os dados, treinar o modelo e publicá-lo automaticamente no Hugging Face.
 
-### Local Development
+### Desenvolvimento Local
 
 > [!IMPORTANT]
-> We strongly recommend using `uv` instead of `pip` to prevent Cuda/PyTorch dependency conflicts when using Unsloth.
+> Recomendamos fortemente usar o `uv` no lugar do `pip` para prevenir conflitos nas dependências de Cuda/PyTorch ao utilizar o Unsloth.
 
-1. **Clone the repository and install dependencies:**
+1. **Clone o repositório e instale as dependências:**
    ```bash
    git clone https://github.com/willianOliveira-dev/recruta-ai-training.git
    cd recruta-ai-training
    uv sync
    ```
 
-2. **Set Environment Variables:**
-   Create a `.env` file or export them in your terminal:
+2. **Defina as Variáveis de Ambiente:**
+   Crie um arquivo `.env` ou exporte-as no seu terminal:
    ```bash
-   export KAGGLE_USERNAME="your_kaggle_username"
-   export KAGGLE_KEY="your_kaggle_key"
-   export HF_TOKEN="your_hf_write_token"
+   export KAGGLE_USERNAME="seu_usuario_kaggle"
+   export KAGGLE_KEY="sua_chave_kaggle"
+   export HF_TOKEN="seu_token_hf_de_escrita"
    ```
 
-3. **Run the Pipeline:**
+3. **Execute o Pipeline:**
    ```bash
-   # Optional: Only download and prepare data
+   # Opcional: Apenas fazer o download e preparar os dados
    uv run scripts/prepare_data.py --config configs/lite.yaml
 
-   # Train the model
+   # Treinar o modelo
    uv run scripts/train.py --config configs/lite.yaml
 
-   # Merge 16-bit adapters and publish to Hugging Face
+   # Fazer o merge dos adaptadores em 16-bits e publicar no Hugging Face
    uv run scripts/publish.py --config configs/lite.yaml
    ```
 
-## Configuration
+## Configuração
 
-The entire system is configuration-driven via the `configs/` directory. You can add or modify data sources directly in the YAML file without touching the Python code.
+Todo o sistema é orientado por configuração através do diretório `configs/`. Você pode adicionar ou modificar as fontes de dados diretamente no arquivo YAML, sem tocar no código em Python.
 
 ```yaml
 data:
   sources:
-    - name: "custom-dataset"
+    - name: "dataset-customizado"
       source_type: "kaggle"
-      uri: "kaggle_user/dataset_name"
+      uri: "usuario_kaggle/nome_do_dataset"
 ```
