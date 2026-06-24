@@ -31,8 +31,8 @@ These fine-tuning skills are not generic data-science instructions. Use them as 
 
 ## AI Training Domain Baseline
 
-- Treat the base model `unsloth/DeepSeek-R1-Distill-Qwen-14B` (Recruta 1.0 Lite) as the primary foundational model. Configurations reside in `configs/lite.yaml`.
-- Treat model versioning as modular. New versions (e.g., Pro, Max) must inherit the base infrastructure and only create new `.yaml` files or dataset directories, without rewriting the primary training scripts.
+- Treat the base model `unsloth/Llama-3.2-3B-Instruct` (Recruta 1.0 Micro) as the primary foundational model. Configurations reside in `configs/micro.yaml`.
+- Treat model versioning as modular. New versions (e.g., Lite, Pro, Max) must inherit the base infrastructure and only create new `.yaml` files or dataset directories, without rewriting the primary training scripts.
 - Treat Kaggle and Hugging Face as the core data sources.
 - Use the following designated datasets:
   - **Kaggle:** `saugataroyarghya/resume-dataset`, `snehaanbhawal/resume-dataset`, `yashpwrr/resume-ner-training-dataset`, `mdtalhask/ai-powered-resume-screening-dataset-2025`, `thejohnwick001/resume-data-for-ranking`.

@@ -3,7 +3,7 @@
 Uma pipeline corporativa e escalável para *Fine-Tuning* de Modelos de Linguagem Grande (LLMs) voltada especificamente para o domínio de Recursos Humanos (ATS - *Applicant Tracking Systems*).
 
 > [!NOTE]
-> O modelo base atual adotado para a versão "Lite" é o **`unsloth/DeepSeek-R1-Distill-Qwen-14B`**, focado em extração de entidades (NER), *scoring* e ranqueamento de currículos.
+> O modelo base atual adotado para a versão "Micro" é o **`unsloth/Llama-3.2-3B-Instruct`**, focado em extração de entidades (NER), *scoring* e ranqueamento de currículos. Modelo leve o suficiente para rodar gratuitamente no Hugging Face Spaces (CPU Basic, 16GB RAM).
 
 ## Arquitetura
 
@@ -27,7 +27,7 @@ recruta-ai-training/
 
 - **Ingestão Multi-Fonte**: Integração fluida com APIs do Kaggle e Hugging Face via padrão Strategy.
 - **Treinamento Ultra-Rápido**: Utiliza o Unsloth para otimização de velocidade e uso de memória VRAM.
-- **Publicador Automatizado (Apenas Maintainers)**: Script isolado para fundir (merge) os adaptadores LoRA em 16-bits e enviar diretamente para o Hugging Face Hub (reservado ao administrador).
+- **Exportação GGUF**: Compila o modelo treinado no formato `.gguf` (quantizado `q4_k_m`), pronto para rodar com Ollama em qualquer infraestrutura com CPU.
 - **PEFT Avançado**: Configurado com `alpha >= 2 * r`, *Cosine LR Scheduler*, e *Warmup Ratios* customizáveis, baseados nas melhores práticas e guias de especialistas em fine-tuning.
 - **Segurança de Tipos (Type Safety)**: Construído com tipagem estática rigorosa, validação Pydantic e correspondência de padrões estruturais (Protocols).
 
@@ -72,10 +72,10 @@ A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuv
 3. **Execute o Pipeline:**
    ```bash
    # Opcional: Apenas fazer o download e preparar os dados
-   uv run scripts/prepare_data.py --config configs/lite.yaml
+   uv run scripts/prepare_data.py --config configs/micro.yaml
 
    # Treinar o modelo
-   uv run scripts/train.py --config configs/lite.yaml
+   uv run scripts/train.py --config configs/micro.yaml
    ```
 
 ## Configuração
