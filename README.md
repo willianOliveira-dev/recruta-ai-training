@@ -8,7 +8,7 @@ O repositório foi projetado visando escalabilidade para novas versões (Pro, Ma
 
 ```text
 recruta-ai-training/
-├── @AGENTS.md                  # Diretrizes para Agentes IA e restrições arquiteturais
+├── AGENTS.md                  # Diretrizes para Agentes IA e restrições arquiteturais
 ├── README.md                   # Documentação base do projeto e tree view
 ├── pyproject.toml              # Dependências gerenciadas via `uv`
 │
