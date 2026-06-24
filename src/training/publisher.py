@@ -48,7 +48,15 @@ class ModelPublisher:
 
         token = os.getenv(self._config.publish.token_env_var)
 
-        if self._config.publish.merge_before_push:
+        if self._config.publish.push_gguf:
+            logger.info("Merging and exporting to GGUF (%s)...", self._config.publish.gguf_quantization)
+            model.push_to_hub_gguf(
+                self._config.publish.repo_id,
+                tokenizer,
+                quantization_method=self._config.publish.gguf_quantization,
+                token=token,
+            )
+        elif self._config.publish.merge_before_push:
             logger.info("Merging LoRA adapters into 16-bit base model before pushing...")
             model.push_to_hub_merged(
                 self._config.publish.repo_id,
