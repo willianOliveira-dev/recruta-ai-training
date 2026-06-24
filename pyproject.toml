@@ -1,0 +1,27 @@
+[project]
+name = "recruta-ai-training"
+version = "0.1.0"
+description = "Repositório corporativo para fine-tuning de modelos Recruta AI."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "pyyaml>=6.0",
+    "datasets>=2.16.0",
+    "transformers>=4.40.0",
+    "torch>=2.2.0",
+    "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git",
+    "trl>=0.8.0",
+    "peft>=0.10.0",
+    "accelerate>=0.29.0",
+    "wandb>=0.16.0",
+    "kaggle>=1.6.0"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true

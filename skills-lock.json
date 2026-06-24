@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "fine-tuning-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/fine-tuning-expert/SKILL.md",
+      "computedHash": "2250831eb0bf919f28177d370a209f77b457e232312f9ea9965a392d09ea2396"
+    },
+    "llm-fine-tuning-guide": {
+      "source": "qodex-ai/ai-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/llm-fine-tuning-guide/SKILL.md",
+      "computedHash": "7fa8ae59d2f095b33a84618065c3ec029def3ec56834cb03676fba08434a0574"
+    },
+    "peft-fine-tuning": {
+      "source": "zechenzhangagi/ai-research-skills",
+      "sourceType": "github",
+      "skillPath": "03-fine-tuning/peft/SKILL.md",
+      "computedHash": "e4a7ee9040fe581444e7de7baa2ab4a38b7a8b1b2ec2e6d2342aec3b13962a00"
+    },
+    "python-expert": {
+      "source": "shubhamsaboo/awesome-llm-apps",
+      "sourceType": "github",
+      "skillPath": "awesome_agent_skills/python-expert/SKILL.md",
+      "computedHash": "63800ddcf406ccfb4d7dec69b1b7026de6ad465512b95ffdbe955e4e5728483f"
+    },
+    "python-type-safety": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/python-development/skills/python-type-safety/SKILL.md",
+      "computedHash": "6162b7a7f1c86888a818833eb4801e348a85fc59a5f15125542ae2d89db67b5a"
+    },
+    "solid": {
+      "source": "ramziddin/solid-skills",
+      "sourceType": "github",
+      "skillPath": "skills/solid/SKILL.md",
+      "computedHash": "fd066a27d0d3e2dff7e987b49a4a3b936049abb40b292d1e96df4c3990209f77"
+    }
+  }
+}
