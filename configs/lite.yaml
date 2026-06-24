@@ -44,6 +44,6 @@ wandb:
   name: "recruta-lite-run-1"
 
 publish:
-  enabled: true
+  enabled: false
   repo_id: "willi/recruta-1.0-ats-lite-14b"
   merge_before_push: true

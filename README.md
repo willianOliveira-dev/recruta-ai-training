@@ -27,7 +27,7 @@ recruta-ai-training/
 
 - **Ingestão Multi-Fonte**: Integração fluida com APIs do Kaggle e Hugging Face via padrão Strategy.
 - **Treinamento Ultra-Rápido**: Utiliza o Unsloth para otimização de velocidade e uso de memória VRAM.
-- **Publicação Automatizada**: Publicador integrado para fundir (merge) os adaptadores LoRA em 16-bits e enviar (push) diretamente para o Hugging Face Hub.
+- **Publicador Automatizado (Apenas Maintainers)**: Script isolado para fundir (merge) os adaptadores LoRA em 16-bits e enviar diretamente para o Hugging Face Hub (reservado ao administrador).
 - **PEFT Avançado**: Configurado com `alpha >= 2 * r`, *Cosine LR Scheduler*, e *Warmup Ratios* customizáveis, baseados nas melhores práticas e guias de especialistas em fine-tuning.
 - **Segurança de Tipos (Type Safety)**: Construído com tipagem estática rigorosa, validação Pydantic e correspondência de padrões estruturais (Protocols).
 
@@ -36,7 +36,6 @@ recruta-ai-training/
 - Python `>=3.10`
 - Gerenciador de pacotes [uv](https://github.com/astral-sh/uv)
 - Conta no Kaggle (para o download dos datasets)
-- Token do Hugging Face com permissão de Escrita (*Write*)
 
 ## Como Iniciar
 
@@ -49,8 +48,7 @@ A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuv
 3. Na aba Secrets do Colab, adicione suas credenciais:
    - `KAGGLE_USERNAME`
    - `KAGGLE_KEY`
-   - `HF_TOKEN`
-4. Execute todas as células para clonar o repositório, ingerir os dados, treinar o modelo e publicá-lo automaticamente no Hugging Face.
+4. Execute todas as células para clonar o repositório, ingerir os dados e treinar o modelo de forma automatizada.
 
 ### Desenvolvimento Local
 
@@ -69,7 +67,6 @@ A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuv
    ```bash
    export KAGGLE_USERNAME="seu_usuario_kaggle"
    export KAGGLE_KEY="sua_chave_kaggle"
-   export HF_TOKEN="seu_token_hf_de_escrita"
    ```
 
 3. **Execute o Pipeline:**
@@ -79,9 +76,6 @@ A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuv
 
    # Treinar o modelo
    uv run scripts/train.py --config configs/lite.yaml
-
-   # Fazer o merge dos adaptadores em 16-bits e publicar no Hugging Face
-   uv run scripts/publish.py --config configs/lite.yaml
    ```
 
 ## Configuração
