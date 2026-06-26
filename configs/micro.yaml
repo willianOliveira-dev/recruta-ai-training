@@ -46,6 +46,9 @@ data:
     - name: "resume-jd-match"
       source_type: "huggingface"
       uri: "facehuggerapoorv/resume-jd-match"
+    - name: "linkedin-job-listings"
+      source_type: "huggingface"
+      uri: "datastax/linkedin_job_listings"
 
 wandb:
   enabled: false
