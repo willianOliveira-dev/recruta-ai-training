@@ -62,7 +62,7 @@ wandb:
 
 publish:
   enabled: false
-  repo_id: "willianOliveira-dev/recruta-ats-micro-3b-gguf"
+  repo_id: "willian-oliv/recruta-ats-micro-3b-gguf"
   push_gguf: true
   gguf_quantization: "q4_k_m"
   token_env_var: "HF_TOKEN"

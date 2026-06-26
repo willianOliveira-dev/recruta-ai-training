@@ -41,7 +41,7 @@ wandb:
 
 publish:
   enabled: false
-  repo_id: "username/recruta-ats-micro-3b-gguf"
+  repo_id: "willian-oliv/recruta-ats-micro-3b-gguf"
   push_gguf: true
   gguf_quantization: "q4_k_m"
   merge_before_push: false

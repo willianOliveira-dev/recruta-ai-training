@@ -45,5 +45,5 @@ wandb:
 
 publish:
   enabled: false
-  repo_id: "willi/recruta-1.0-ats-lite-14b"
+  repo_id: "willian-oliv/recruta-1.0-ats-lite-14b"
   merge_before_push: true

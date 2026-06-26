@@ -78,7 +78,7 @@ class WandbConfig(BaseModel):
 
 class PublishConfig(BaseModel):
     enabled: bool = False
-    repo_id: str = "seu-usuario/recruta-ats-micro-3b-gguf"
+    repo_id: str = "willian-oliv/recruta-ats-micro-3b-gguf"
     merge_before_push: bool = False
     push_gguf: bool = True
     gguf_quantization: str = "q4_k_m"
