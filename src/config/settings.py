@@ -11,7 +11,7 @@ from src.shared.errors import ConfigurationLoadError
 
 logger = logging.getLogger(__name__)
 
-DataSourceType = Literal["huggingface", "kaggle", "local", "s3", "gcs"]
+DataSourceType = Literal["huggingface", "local", "s3", "gcs"]
 
 
 class ModelConfig(BaseModel):

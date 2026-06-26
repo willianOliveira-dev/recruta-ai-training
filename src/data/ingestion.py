@@ -4,7 +4,6 @@ import logging
 from pathlib import Path
 
 from datasets import Dataset, load_dataset
-from kaggle.api.kaggle_api_extended import KaggleApi
 
 from src.config.settings import DataSourceConfig
 from src.shared.errors import IngestionError, StrategyNotFoundError
@@ -19,33 +18,12 @@ class HuggingFaceStrategy:
         return load_dataset(source.uri)
 
 
-class KaggleStrategy:
-    def __init__(self) -> None:
-        self._api: KaggleApi | None = None
-
-    def _get_api(self) -> KaggleApi:
-        if self._api is None:
-            self._api = KaggleApi()
-            self._api.authenticate()
-        return self._api
-
-    def ingest(self, source: DataSourceConfig, output_dir: Path) -> Path:
-        logger.info("Ingesting Kaggle dataset: %s", source.uri)
-        api = self._get_api()
-        dataset_name = source.uri.split("/")[-1]
-        save_path = output_dir / dataset_name
-        save_path.mkdir(parents=True, exist_ok=True)
-        api.dataset_download_files(source.uri, path=str(save_path), unzip=True)
-        return save_path
-
-
 class DatasetIngestor:
     def __init__(self, output_dir: Path = Path("./data/raw")) -> None:
         self._output_dir = output_dir
         self._output_dir.mkdir(parents=True, exist_ok=True)
         self._strategies: dict[str, DataSourceStrategy] = {
             "huggingface": HuggingFaceStrategy(),
-            "kaggle": KaggleStrategy(),
         }
 
     def register_strategy(self, name: str, strategy: DataSourceStrategy) -> None:

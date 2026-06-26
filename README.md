@@ -25,7 +25,7 @@ recruta-ai-training/
 
 ## Funcionalidades
 
-- **Ingestão Multi-Fonte**: Integração fluida com APIs do Kaggle e Hugging Face via padrão Strategy.
+- **Ingestão Multi-Fonte**: Integração fluida com APIs do Hugging Face via padrão Strategy.
 - **Treinamento Ultra-Rápido**: Utiliza o Unsloth para otimização de velocidade e uso de memória VRAM.
 - **Exportação GGUF**: Compila o modelo treinado no formato `.gguf` (quantizado `q4_k_m`), pronto para rodar com Ollama em qualquer infraestrutura com CPU.
 - **PEFT Avançado**: Configurado com `alpha >= 2 * r`, *Cosine LR Scheduler*, e *Warmup Ratios* customizáveis, baseados nas melhores práticas e guias de especialistas em fine-tuning.
@@ -35,7 +35,7 @@ recruta-ai-training/
 
 - Python `>=3.10`
 - Gerenciador de pacotes [uv](https://github.com/astral-sh/uv)
-- Conta no Kaggle (para o download dos datasets)
+
 
 ## Como Iniciar
 
@@ -46,8 +46,7 @@ A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuv
 1. Abra o [Google Colab](https://colab.research.google.com/).
 2. Faça o upload do arquivo `notebooks/recruta_colab_training.ipynb`.
 3. Na aba Secrets do Colab, adicione suas credenciais:
-   - `KAGGLE_USERNAME`
-   - `KAGGLE_KEY`
+   - `HF_TOKEN`
 4. Execute todas as células para clonar o repositório, ingerir os dados e treinar o modelo de forma automatizada.
 
 ### Desenvolvimento Local
@@ -62,14 +61,7 @@ A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuv
    uv sync
    ```
 
-2. **Defina as Variáveis de Ambiente:**
-   Crie um arquivo `.env` ou exporte-as no seu terminal:
-   ```bash
-   export KAGGLE_USERNAME="seu_usuario_kaggle"
-   export KAGGLE_KEY="sua_chave_kaggle"
-   ```
-
-3. **Execute o Pipeline:**
+2. **Execute o Pipeline:**
    ```bash
    # Opcional: Apenas fazer o download e preparar os dados
    uv run scripts/prepare_data.py --config configs/micro.yaml
@@ -85,7 +77,4 @@ Todo o sistema é orientado por configuração através do diretório `configs/`
 ```yaml
 data:
   sources:
-    - name: "dataset-customizado"
-      source_type: "kaggle"
-      uri: "usuario_kaggle/nome_do_dataset"
 ```
