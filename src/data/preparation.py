@@ -24,7 +24,6 @@ class DatasetPreparator:
         return {"text": text}
 
     def _format_generic(self, example: dict) -> dict[str, str]:
-        # Fallback genérico: junta todos os valores da linha em um texto
         text_parts = []
         for k, v in example.items():
             if v and isinstance(v, str):
