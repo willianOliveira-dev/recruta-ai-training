@@ -23,6 +23,14 @@ class DatasetPreparator:
         )
         return {"text": text}
 
+    def _format_generic(self, example: dict) -> dict[str, str]:
+        # Fallback genérico: junta todos os valores da linha em um texto
+        text_parts = []
+        for k, v in example.items():
+            if v and isinstance(v, str):
+                text_parts.append(f"{k}: {v}")
+        return {"text": "\n".join(text_parts)}
+
     def prepare_dataset(self, dataset: Dataset) -> Dataset:
         has_instruction = "instruction" in dataset.column_names
         has_output = "output" in dataset.column_names
@@ -32,6 +40,8 @@ class DatasetPreparator:
             return dataset.map(self._format_chat_template, num_proc=4)
 
         logger.warning(
-            "Dataset missing 'instruction'/'output' columns. Returning unmodified."
+            "Dataset missing 'instruction'/'output' columns. Using generic formatting."
         )
+        if "text" not in dataset.column_names:
+            return dataset.map(self._format_generic, num_proc=4)
         return dataset
