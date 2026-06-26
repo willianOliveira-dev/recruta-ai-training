@@ -8,6 +8,7 @@ __pycache__/
 /data/
 /wandb/
 /unsloth_compiled_cache/
+/huggingface_tokenizers_cache/
 *.ckpt
 *.safetensors
 *.bin
