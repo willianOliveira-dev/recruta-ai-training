@@ -36,6 +36,6 @@ These fine-tuning skills are not generic data-science instructions. Use them as 
 - Treat Kaggle and Hugging Face as the core data sources.
 - Use the following designated datasets:
   - **Kaggle:** `saugataroyarghya/resume-dataset`, `snehaanbhawal/resume-dataset`, `yashpwrr/resume-ner-training-dataset`, `mdtalhask/ai-powered-resume-screening-dataset-2025`, `thejohnwick001/resume-data-for-ranking`.
-  - **Hugging Face:** `yashpwr/resume-ner-bert-v2`, `0xnbk/resume-ats-score-v1-en`, `netsol/resume-score-details`.
+  - **Hugging Face:** `yashpwr/resume-ner-training-data`, `0xnbk/resume-ats-score-v1-en`, `netsol/resume-score-details`.
 - Use the `datasets` library to load HF datasets (e.g., `load_dataset("0xnbk/resume-ats-score-v1-en")`).
 - Design data pipelines so future parsing, formatting, and training loops can evolve without rewriting the module boundary.

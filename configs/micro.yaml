@@ -33,7 +33,7 @@ data:
   sources:
     - name: "ner-bert"
       source_type: "huggingface"
-      uri: "yashpwr/resume-ner-bert-v2"
+      uri: "yashpwr/resume-ner-training-data"
     - name: "ats-score"
       source_type: "huggingface"
       uri: "0xnbk/resume-ats-score-v1-en"
