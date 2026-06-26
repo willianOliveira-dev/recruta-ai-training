@@ -32,6 +32,21 @@ data:
     - name: "linkedin-job-listings"
       source_type: "huggingface"
       uri: "datastax/linkedin_job_listings"
+    - name: "resume-job-description-fit"
+      source_type: "huggingface"
+      uri: "cnamuangtoun/resume-job-description-fit"
+    - name: "resume-screening-dataset"
+      source_type: "huggingface"
+      uri: "AzharAli05/Resume-Screening-Dataset"
+    - name: "resume-classification"
+      source_type: "huggingface"
+      uri: "syedroshanzameer/resume-classification"
+    - name: "stsb"
+      source_type: "huggingface"
+      uri: "sentence-transformers/stsb"
+    - name: "job-cv-supervised"
+      source_type: "huggingface"
+      uri: "bwbayu/job_cv_supervised"
 
 wandb:
   enabled: true
