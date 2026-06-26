@@ -44,7 +44,7 @@ class ModelTrainer:
             lr_scheduler_type=self._config.training.lr_scheduler_type,
             seed=self._config.seed,
             output_dir=self._config.output_dir,
-            save_steps=self._config.training.save_steps,
+            save_strategy="no",
             report_to="wandb" if self._config.wandb.enabled else "none",
             run_name=self._config.wandb.name if self._config.wandb.enabled else None,
         )
