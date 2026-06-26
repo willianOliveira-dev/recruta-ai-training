@@ -48,21 +48,37 @@ class TrainingPipeline:
         results: dict[str, Dataset | Path],
         tokenizer: object,
     ) -> Dataset:
-        first_source = self._config.data.sources[0] if self._config.data.sources else None
-        if first_source is None:
-            raise TrainingError("No data sources configured")
+        from datasets import concatenate_datasets
 
-        raw_dataset = results.get(first_source.name)
-        if raw_dataset is None or not isinstance(raw_dataset, Dataset) and not hasattr(raw_dataset, "__getitem__"):
-            raise TrainingError(f"Dataset '{first_source.name}' not available in memory")
+        if not results:
+            raise TrainingError("No datasets were ingested successfully")
 
         logger.info("Step 3: Preparing training data")
         preparator = DatasetPreparator(tokenizer)
+        prepared_datasets: list[Dataset] = []
 
-        if hasattr(raw_dataset, "keys") and "train" in raw_dataset:
-            return preparator.prepare_dataset(raw_dataset["train"])
+        for source_name, raw_dataset in results.items():
+            if not isinstance(raw_dataset, Dataset):
+                if hasattr(raw_dataset, "keys") and "train" in raw_dataset:
+                    raw_dataset = raw_dataset["train"]
+                else:
+                    logger.warning("Skipping non-Dataset source: %s", source_name)
+                    continue
 
-        return preparator.prepare_dataset(raw_dataset)
+            prepared = preparator.prepare_dataset(raw_dataset)
+            if len(prepared) > 0:
+                text_only = prepared.select_columns(["text"])
+                prepared_datasets.append(text_only)
+                logger.info(
+                    "Source '%s' contributed %d rows", source_name, len(text_only)
+                )
+
+        if not prepared_datasets:
+            raise TrainingError("All datasets produced empty results after preparation")
+
+        combined = concatenate_datasets(prepared_datasets)
+        logger.info("Total training rows: %d", len(combined))
+        return combined
 
     def run(self) -> None:
         self._initialize_wandb()

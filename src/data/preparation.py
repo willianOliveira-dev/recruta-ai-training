@@ -26,9 +26,15 @@ class DatasetPreparator:
     def _format_generic(self, example: dict) -> dict[str, str]:
         text_parts = []
         for k, v in example.items():
-            if v and isinstance(v, str):
-                text_parts.append(f"{k}: {v}")
+            if v is None:
+                continue
+            str_value = str(v) if not isinstance(v, str) else v
+            if str_value.strip():
+                text_parts.append(f"{k}: {str_value}")
         return {"text": "\n".join(text_parts)}
+
+    def _filter_empty_text(self, example: dict[str, str]) -> bool:
+        return bool(example.get("text", "").strip())
 
     def prepare_dataset(self, dataset: Dataset) -> Dataset:
         has_instruction = "instruction" in dataset.column_names
@@ -36,11 +42,27 @@ class DatasetPreparator:
 
         if has_instruction and has_output:
             logger.info("Formatting dataset with chat template")
-            return dataset.map(self._format_chat_template, num_proc=4)
+            formatted = dataset.map(self._format_chat_template, num_proc=4)
+        elif "text" in dataset.column_names:
+            logger.info("Dataset already has 'text' column")
+            formatted = dataset
+        else:
+            logger.warning(
+                "Dataset missing 'instruction'/'output' columns. Using generic formatting."
+            )
+            formatted = dataset.map(self._format_generic, num_proc=4)
 
-        logger.warning(
-            "Dataset missing 'instruction'/'output' columns. Using generic formatting."
-        )
-        if "text" not in dataset.column_names:
-            return dataset.map(self._format_generic, num_proc=4)
-        return dataset
+        before_count = len(formatted)
+        formatted = formatted.filter(self._filter_empty_text, num_proc=4)
+        after_count = len(formatted)
+
+        if before_count != after_count:
+            logger.info(
+                "Filtered %d empty rows (before=%d, after=%d)",
+                before_count - after_count,
+                before_count,
+                after_count,
+            )
+
+        return formatted
+
