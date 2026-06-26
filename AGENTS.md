@@ -33,9 +33,12 @@ These fine-tuning skills are not generic data-science instructions. Use them as 
 
 - Treat the base model `unsloth/Llama-3.2-3B-Instruct` (Recruta 1.0 Micro) as the primary foundational model. Configurations reside in `configs/micro.yaml`.
 - Treat model versioning as modular. New versions (e.g., Lite, Pro, Max) must inherit the base infrastructure and only create new `.yaml` files or dataset directories, without rewriting the primary training scripts.
-- Treat Kaggle and Hugging Face as the core data sources.
+- Treat Hugging Face as the primary data source. All datasets must be loadable via `load_dataset()` to work in-memory during training.
 - Use the following designated datasets:
-  - **Kaggle:** `saugataroyarghya/resume-dataset`, `snehaanbhawal/resume-dataset`, `yashpwrr/resume-ner-training-dataset`, `mdtalhask/ai-powered-resume-screening-dataset-2025`, `thejohnwick001/resume-data-for-ranking`.
-  - **Hugging Face:** `yashpwr/resume-ner-training-data`, `0xnbk/resume-ats-score-v1-en`, `netsol/resume-score-details`.
+  - `yashpwr/resume-ner-training-data` — NER labels for resume entities (skills, education, experience).
+  - `0xnbk/resume-ats-score-v1-en` — ATS compatibility scores between resumes and job descriptions.
+  - `sandeeppanem/resume-json-extraction-5k` — structured JSON extraction from raw resume text (instruction/output format).
+  - `datasetmaster/resumes` — corpus of real and synthetic anonymized resumes.
+  - `LlamaFactoryAI/cv-job-description-matching` — CV and job description matching pairs for instruction tuning.
 - Use the `datasets` library to load HF datasets (e.g., `load_dataset("0xnbk/resume-ats-score-v1-en")`).
 - Design data pipelines so future parsing, formatting, and training loops can evolve without rewriting the module boundary.
