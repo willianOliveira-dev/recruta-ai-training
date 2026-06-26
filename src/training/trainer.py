@@ -33,7 +33,6 @@ class ModelTrainer:
             per_device_train_batch_size=self._config.training.per_device_train_batch_size,
             gradient_accumulation_steps=self._config.training.gradient_accumulation_steps,
             warmup_steps=self._config.training.warmup_steps,
-            warmup_ratio=self._config.training.warmup_ratio,
             max_steps=self._config.training.max_steps,
             num_train_epochs=self._config.training.num_train_epochs,
             learning_rate=self._config.training.learning_rate,
@@ -59,7 +58,6 @@ class ModelTrainer:
                 train_dataset=self._train_dataset,
                 dataset_text_field="text",
                 max_seq_length=self._config.training.max_seq_length,
-                dataset_num_proc=2,
                 packing=self._config.training.packing,
                 args=self._build_training_arguments(),
             )
