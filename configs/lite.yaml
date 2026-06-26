@@ -26,9 +26,12 @@ data:
     - name: "resumes-corpus"
       source_type: "huggingface"
       uri: "datasetmaster/resumes"
-    - name: "cv-job-matching"
+    - name: "resume-jd-match"
       source_type: "huggingface"
-      uri: "LlamaFactoryAI/cv-job-description-matching"
+      uri: "facehuggerapoorv/resume-jd-match"
+    - name: "resume-score-details"
+      source_type: "huggingface"
+      uri: "callmeech/resume-score-details"
 
 wandb:
   enabled: true
