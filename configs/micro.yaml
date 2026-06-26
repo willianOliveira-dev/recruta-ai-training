@@ -46,9 +46,6 @@ data:
     - name: "resume-jd-match"
       source_type: "huggingface"
       uri: "facehuggerapoorv/resume-jd-match"
-    - name: "resume-score-details"
-      source_type: "huggingface"
-      uri: "callmeech/resume-score-details"
 
 wandb:
   enabled: false
