@@ -77,4 +77,7 @@ Todo o sistema é orientado por configuração através do diretório `configs/`
 ```yaml
 data:
   sources:
+    - name: "meu-dataset-hf"
+      source_type: "huggingface"
+      uri: "usuario/nome-do-dataset"
 ```
