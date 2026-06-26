@@ -45,9 +45,10 @@ A maneira mais fácil de executar o pipeline de ponta a ponta usando GPUs em nuv
 
 1. Abra o [Google Colab](https://colab.research.google.com/).
 2. Faça o upload do arquivo `notebooks/recruta_colab_training.ipynb`.
-3. Na aba Secrets do Colab, adicione suas credenciais:
-   - `HF_TOKEN`
-4. Execute todas as células para clonar o repositório, ingerir os dados e treinar o modelo de forma automatizada.
+3. Selecione `Runtime > Change runtime type > GPU (T4)`.
+4. Execute todas as células para clonar o repositório, ingerir os dados e treinar o modelo.
+
+> **Publicação no Hugging Face (opcional):** Por padrão, `publish.enabled` está `false` no `configs/micro.yaml`. Para enviar o modelo após o treino, altere para `true` e adicione o segredo `HF_TOKEN` na aba **Secrets** do Colab.
 
 ### Desenvolvimento Local
 
